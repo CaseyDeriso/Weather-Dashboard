@@ -9,26 +9,33 @@
   <body class="flex-column min-100-vh">
     <header class="hero">
       <h1 class="app-title">Welcome to Weather Dashboard</h1>
-    <p>
-      search for a city or click on a recently searched city to see that citys
-      weather dashboard
-    </p>
-</header>
-    <main class="flex-row justify-space-around">
-        <div class="flex-column col-12 col-lg-2">
-            <div class="card">
-                <h3 class="card-header">Search By City</h3>
-                <form class="card-body" id="city-form">
-                    <label for="city" class="form-label">City</label>
-                    <input name="city" type="text" class="form-input" id="city" autofocus="true" />
-                    <button type="submit" class="btn">Go!</button>
-                </form>
-            </div>
+      <p>
+        search for a city or click on a recently searched city to see that citys
+        weather dashboard
+      </p>
+    </header>
+    <main class="flex-row justify-space-between">
+      <div class="flex-column col-7 col-sm-5 col-md-2">
+        <div class="card">
+          <h3 class="card-header">Search By City</h3>
+          <form class="card-body" id="city-form">
+            <label for="city" class="form-label">City</label>
+            <input
+              name="city"
+              type="text"
+              class="form-input"
+              id="city"
+              autofocus="true"
+            />
+            <button type="submit" class="btn">Go!</button>
+          </form>
         </div>
-        <div class="flex-column col-12 col-lg-10">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quaerat quos quis doloribus nesciunt, rem voluptate cumque quam qui quibusdam debitis atque cum optio natus vitae aspernatur ratione! Cum ratione quam repellat fugit inventore sed reiciendis deleniti perspiciatis temporibus, ut nemo earum harum facere exercitationem nisi voluptatem consectetur ipsa consequatur magni animi pariatur mollitia. Vero, laudantium sed! Maiores rerum porro labore itaque quae, maxime voluptatibus. Expedita ratione tempore, voluptatum temporibus quasi est obcaecati iste provident consectetur ducimus iusto fugit doloribus totam aliquid! Hic pariatur est voluptatibus similique deserunt dicta minima optio voluptas, suscipit facere perferendis repudiandae quis sunt cumque aliquid quas explicabo laboriosam ad illo omnis qui rem tempore amet. Adipisci doloremque nulla officiis! Nostrum autem consectetur neque id exercitationem quod expedita laudantium qui fugiat. Non unde consectetur corrupti incidunt blanditiis repellendus. Cum dicta illum obcaecati officia dignissimos, pariatur animi debitis. Nemo dolor, enim eligendi quasi alias quibusdam corrupti temporibus repellat soluta, voluptas distinctio ipsum! Dolorem rem ipsam accusantium numquam saepe quo non, distinctio omnis velit quam laudantium consectetur officia nostrum magnam dignissimos earum molestiae aut quae doloremque corrupti recusandae cum. Rerum, eius qui tempora, dolore sit est doloremque ratione ducimus non facere autem. Amet adipisci molestiae mollitia ea soluta, asperiores, aperiam perferendis enim dicta temporibus sapiente numquam. Tenetur soluta aperiam non minus consectetur, eos in debitis enim! Magnam sint earum labore beatae doloremque alias optio officiis aliquam saepe, illum corrupti! Voluptas reprehenderit numquam delectus. Ullam ducimus consectetur esse, quia distinctio corporis neque iure necessitatibus voluptatem sit soluta quaerat reiciendis. Dolorem ullam at perspiciatis illum, neque molestias tempora culpa voluptate cumque eum inventore quidem alias voluptatum aliquid assumenda impedit asperiores temporibus voluptatibus tempore aut. Debitis exercitationem vitae perspiciatis! Excepturi architecto molestiae laborum ipsa mollitia quia vitae, maxime in perspiciatis natus cum corrupti aspernatur laboriosam inventore itaque est animi facere ad.
-        </div>
+      </div>
+      <div class="flex-column col-12 col-md-10">
+        <div class="flex-row" id="current-weather"></div>
+        <div class="flex-row" id="five-day"></div>
+      </div>
     </main>
-<script src="./Assets/JS/Script.js"></script>
+    <script src="./Assets/JS/Script.js"></script>
   </body>
 </html>

@@ -144,6 +144,12 @@
   .icon-success {
     color: rgb(29, 153, 255);
   }
+  /* Uv index */
+  .uv-bg {
+    border-radius: var(--border-radius);
+    padding: 3px;
+    margin: 0 5px;
+  }
   
   /* CARDS */
   .card {
