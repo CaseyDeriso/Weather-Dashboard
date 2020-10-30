@@ -1,21 +1,20 @@
 // get reference Dom elements
-const searchHistEl = document.getElementById("search-history")
+const searchHistEl = document.getElementById("search-history");
 const cityFormEl = document.getElementById("city-form");
 const cityInputEl = document.getElementById("city");
 const currentWeatherEl = document.getElementById("current-weather");
+const fiveDayWeatherEl = document.getElementById("five-day")
 const apiKey = "5f561ad30edf570bba6252977997c67c";
 
 // create the past 5 searches array
 let wdSearchHist = [];
 
-
-
 const formSumbitHandler = function (event) {
   event.preventDefault();
   // get the search parameter
-  let city = cityInputEl.value.trim();
+  let city = cityInputEl.value.trim().toUpperCase();
   // clear the contianer
-  cityInputEl.value = ''
+  cityInputEl.value = "";
   // check if text was typed before button was pressed
   if (city) {
     // check if the parameter has NOT ben searched before
@@ -31,7 +30,7 @@ const formSumbitHandler = function (event) {
     }
     getCurrentWeather(city);
     getFiveDay(city);
-    displaySearchHist(wdSearchHist)
+    displaySearchHist(wdSearchHist);
   } else {
     alert("Please enter a city name");
   }
@@ -43,16 +42,16 @@ const getCurrentWeather = function (city) {
   fetch(apiUrl)
     .then((res) => {
       if (res.ok) {
-        return res.json()
+        return res.json();
       } else {
         wdSearchHist.shift();
         localStorage["wdSearchHist"] = JSON.stringify(wdSearchHist);
         displaySearchHist(wdSearchHist);
-        throw res
+        throw res;
       }
     })
     // call createcurrent weather function with fetched weather object
-    .then((res) => displayCurrentWeather(res))
+    .then((res) => displayCurrentWeather(res));
 };
 
 // fetch the UV index data
@@ -62,7 +61,7 @@ const getUvIndex = function (obj) {
   let UvUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}`;
   fetch(UvUrl)
     .then((res) => res.json())
-    .then((res) => displayUvBackground(res))
+    .then((res) => displayUvBackground(res));
 };
 
 // fetch the 5 day forecast
@@ -72,7 +71,6 @@ const getFiveDay = function (city) {
     .then((res) => res.json())
     .then((res) => displayFiveDay(res));
 };
-
 
 const displayCurrentWeather = function (obj) {
   // clear current weather el content
@@ -163,33 +161,72 @@ const displayUvBackground = function (obj) {
 };
 
 const displayFiveDay = function (obj) {
-  console.log(obj);
+  console.log(obj)
+  fiveDayWeatherEl.innerHTML = ""
+  for (let i = 7; i<40; i= i + 8) {
+    dayObj = obj.list[i]
+    dateText = dayObj.dt_txt.split(' ')[0]
+
+    let dayEl = document.createElement("div")
+    dayEl.classList = "card col-2"
+
+    dayTitle = document.createElement("div")
+    dayTitle.classList = "card-header "
+    dayTitle.textContent = dateText;
+
+    let iconId = dayObj.weather[0].icon
+    let iconUrl = `http://openweathermap.org/img/wn/${iconId}.png`;
+    dayIconEl = document.createElement("img")
+    dayIconEl.setAttribute("src", iconUrl);
+    dayIconEl.style.margin = "0 33%"
+
+    let tempEl = document.createElement("p")
+    let temp = dayObj.main.temp;
+    let tempInF = Math.floor((temp * 9) / 5 - 459.67)
+    tempEl.textContent = `Temp. = ${tempInF}(F)`
+
+    let humidityEl = document.createElement("p");
+    let humidity = dayObj.main.humidity;
+    humidityEl.textContent = `Humidity = ${humidity}%`;
+
+
+    dayEl.appendChild(dayTitle)
+    dayEl.appendChild(dayIconEl)
+    dayEl.appendChild(tempEl)
+    dayEl.appendChild(humidityEl)
+
+    fiveDayWeatherEl.appendChild(dayEl)
+  }
 };
 
-
 // create function to display search history
-const displaySearchHist = function(arr) {
-
+const displaySearchHist = function (arr) {
   // clear the search history box
   searchHistEl.innerHTML = "";
-  for (let i = 0; i<arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     // create a card link el
-    let cardLinkEl = document.createElement("a")
-    cardLinkEl.classList = "card-link"
+    let cardLinkEl = document.createElement("a");
+    cardLinkEl.classList = "card-link";
     cardLinkEl.textContent = arr[i];
     searchHistEl.appendChild(cardLinkEl);
   }
-}
+};
 
 // retrieve weather dashboard search history from local storage and initialize app
-window.addEventListener('load', () => {
-if (localStorage["wdSearchHist"]) {
-  wdSearchHist = JSON.parse(localStorage["wdSearchHist"]);
+window.addEventListener("load", () => {
+  if (localStorage["wdSearchHist"]) {
+    wdSearchHist = JSON.parse(localStorage["wdSearchHist"]);
     // load the page with the last searched term
     getCurrentWeather(wdSearchHist[0]);
     getFiveDay(wdSearchHist[0]);
     displaySearchHist(wdSearchHist);
-}
-})
+  }
+});
 
 cityFormEl.addEventListener("submit", formSumbitHandler);
+
+searchHistEl.addEventListener("click", function (event) {
+  let city = event.target.innerHTML;
+  getCurrentWeather(city);
+  getFiveDay(city);
+});

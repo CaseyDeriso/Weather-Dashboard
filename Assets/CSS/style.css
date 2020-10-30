@@ -153,7 +153,7 @@
   
   /* CARDS */
   .card {
-    margin: 0 0 20px 0;
+    margin: 20px 5px;
     border: 3px solid var(--dark);
     border-radius: var(--border-radius);
   }
