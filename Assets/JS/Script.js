@@ -59,7 +59,7 @@ const getCurrentWeather = function (city) {
 // get lat and long data from current search passed in as obj
 const getUvIndex = function (obj) {
   let coord = obj.coord;
-  let UvUrl = `http://api.openweathermap.org/data/2.5/uvi?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}`;
+  let UvUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}`;
   fetch(UvUrl)
     .then((res) => res.json())
     .then((res) => displayUvBackground(res))
