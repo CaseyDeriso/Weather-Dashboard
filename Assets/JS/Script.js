@@ -1,14 +1,37 @@
 // get reference Dom elements
+const searchHistEl = document.getElementById("search-history")
 const cityFormEl = document.getElementById("city-form");
 const cityInputEl = document.getElementById("city");
 const currentWeatherEl = document.getElementById("current-weather");
 const apiKey = "5f561ad30edf570bba6252977997c67c";
 
+// create the past 5 searches array
+let wdSearchHist = [];
+
+
+
 const formSumbitHandler = function (event) {
   event.preventDefault();
+  // get the search parameter
   let city = cityInputEl.value.trim();
+  // clear the contianer
+  cityInputEl.value = ''
+  // check if text was typed before button was pressed
   if (city) {
+    // check if the parameter has NOT ben searched before
+    if (wdSearchHist.indexOf(city) == -1) {
+      // add new parameter to history
+      wdSearchHist.unshift(city);
+      // remove the last search on the list, keeping list length at 5
+      if (wdSearchHist.length > 5) {
+        wdSearchHist.pop();
+      }
+      // save array in local storage
+      localStorage["wdSearchHist"] = JSON.stringify(wdSearchHist);
+    }
     getCurrentWeather(city);
+    getFiveDay(city);
+    displaySearchHist(wdSearchHist)
   } else {
     alert("Please enter a city name");
   }
@@ -18,9 +41,18 @@ const formSumbitHandler = function (event) {
 const getCurrentWeather = function (city) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
   fetch(apiUrl)
-    .then((res) => res.json())
+    .then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else {
+        wdSearchHist.shift();
+        localStorage["wdSearchHist"] = JSON.stringify(wdSearchHist);
+        displaySearchHist(wdSearchHist);
+        throw res
+      }
+    })
     // call createcurrent weather function with fetched weather object
-    .then((res) => createCurrentWeather(res));
+    .then((res) => displayCurrentWeather(res))
 };
 
 // fetch the UV index data
@@ -30,10 +62,19 @@ const getUvIndex = function (obj) {
   let UvUrl = `http://api.openweathermap.org/data/2.5/uvi?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}`;
   fetch(UvUrl)
     .then((res) => res.json())
-    .then((res) => displayUvBackground(res));
+    .then((res) => displayUvBackground(res))
 };
 
-const createCurrentWeather = function (obj) {
+// fetch the 5 day forecast
+const getFiveDay = function (city) {
+  let fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
+  fetch(fiveDayUrl)
+    .then((res) => res.json())
+    .then((res) => displayFiveDay(res));
+};
+
+
+const displayCurrentWeather = function (obj) {
   // clear current weather el content
   currentWeatherEl.innerHTML = "";
   // create element to dislay current weather
@@ -57,7 +98,7 @@ const createCurrentWeather = function (obj) {
 
   // create row to display current temperature
   let temperatureEl = document.createElement("div");
-  temperatureEl.setAttribute("class", "col-12");
+  temperatureEl.classList = "flex-row text-align-left";
   // get the current temp and convert K to F
   let currentTempF = Math.floor((obj.main.temp * 9) / 5 - 459.67);
   // create h1 element to display temp
@@ -69,7 +110,7 @@ const createCurrentWeather = function (obj) {
 
   // create a row to display current humidity
   let humidityEl = document.createElement("div");
-  humidityEl.setAttribute("class", "col-12");
+  humidityEl.classList = "flex-row text-align-left";
   // create h1 element to display humidity
   let currentHumidityEl = document.createElement("h2");
   currentHumidityEl.textContent = `Humidity = ${obj.main.humidity}%`;
@@ -77,7 +118,7 @@ const createCurrentWeather = function (obj) {
 
   // create a row to display the wind speed
   let windEl = document.createElement("div");
-  windEl.setAttribute("class", "col-12");
+  windEl.classList = "flex-row text-align-left";
   // create h2 element to display wind speed
   let WindSpeedEl = document.createElement("h2");
   // set text content to wind speed, rounded down to nearest tenth
@@ -87,7 +128,7 @@ const createCurrentWeather = function (obj) {
 
   // create a row to display UV index
   let UvEl = document.createElement("div");
-  UvEl.setAttribute("class", "col-12");
+  UvEl.classList = "flex-row text-align-left";
   UvEl.setAttribute("id", "uv-index");
 
   // append each weather element to the current weather element
@@ -102,7 +143,7 @@ const createCurrentWeather = function (obj) {
 
 const displayUvBackground = function (obj) {
   let UvRowEl = document.createElement("div");
-  UvRowEl.setAttribute("class", "flex-row");
+  UvRowEl.classList = "flex-row text-align-left";
   let uvTextEl = document.createElement("h2");
   uvTextEl.textContent = "UV Index = ";
   let uvIndexEl = document.createElement("div");
@@ -120,5 +161,35 @@ const displayUvBackground = function (obj) {
   const currentUvIndexEl = document.getElementById("uv-index");
   currentUvIndexEl.appendChild(UvRowEl);
 };
+
+const displayFiveDay = function (obj) {
+  console.log(obj);
+};
+
+
+// create function to display search history
+const displaySearchHist = function(arr) {
+
+  // clear the search history box
+  searchHistEl.innerHTML = "";
+  for (let i = 0; i<arr.length; i++) {
+    // create a card link el
+    let cardLinkEl = document.createElement("a")
+    cardLinkEl.classList = "card-link"
+    cardLinkEl.textContent = arr[i];
+    searchHistEl.appendChild(cardLinkEl);
+  }
+}
+
+// retrieve weather dashboard search history from local storage and initialize app
+window.addEventListener('load', () => {
+if (localStorage["wdSearchHist"]) {
+  wdSearchHist = JSON.parse(localStorage["wdSearchHist"]);
+    // load the page with the last searched term
+    getCurrentWeather(wdSearchHist[0]);
+    getFiveDay(wdSearchHist[0]);
+    displaySearchHist(wdSearchHist);
+}
+})
 
 cityFormEl.addEventListener("submit", formSumbitHandler);

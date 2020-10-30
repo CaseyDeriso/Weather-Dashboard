@@ -14,8 +14,8 @@
         weather dashboard
       </p>
     </header>
-    <main class="flex-row justify-space-between">
-      <div class="flex-column col-7 col-sm-5 col-md-2">
+    <main class="flex-row justify-space-around">
+      <div class="flex-column align-center col-7 col-sm-5 col-md-3">
         <div class="card">
           <h3 class="card-header">Search By City</h3>
           <form class="card-body" id="city-form">
@@ -29,11 +29,14 @@
             />
             <button type="submit" class="btn">Go!</button>
           </form>
+          <div class="card-body flex-column align-stretch text-align-center" id="search-history"></div>
         </div>
       </div>
-      <div class="flex-column col-12 col-md-10">
-        <div class="flex-row" id="current-weather"></div>
-        <div class="flex-row" id="five-day"></div>
+      <div class="flex-column col-12 col-md-9">
+        <div class="flex-row justify-space-around">
+          <div class="flex-column align-flex-start" id="current-weather"></div>
+        </div>
+        <div class="flex-row justify-space-between" id="five-day"></div>
       </div>
     </main>
     <script src="./Assets/JS/Script.js"></script>

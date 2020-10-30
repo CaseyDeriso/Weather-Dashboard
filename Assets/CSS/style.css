@@ -162,11 +162,20 @@
     color: var(--primary);
     background-color: var(--dark);
     padding: 2.5%;
-    border-radius: calc(.18rem - 1px) calc(.18rem - 1px) 0 0;
+    border-radius:  var(--border-radius) var(--border-radius) 0 0;
+    box-shadow: 0 0 .5px 3px var(--dark);
   }
   
   .card-body {
     padding: 2.5%;
+  }
+
+  .card-link {
+    color: var(--primary);
+    background-color: var(--dark);
+    padding: 2.5%;
+    margin-bottom: 2px;
+    border: 1.5px solid var(--primary);
   }
   
   /* FORM */
@@ -202,6 +211,14 @@
   /* FONT UTILS */
   .text-uppercase {
     text-transform: uppercase;
+  }
+
+  .text-align-left {
+    text-align: left;
+  }
+
+  .text-align-center {
+    text-align: center;
   }
   
   
