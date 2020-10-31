@@ -157,6 +157,10 @@
     border: 3px solid var(--dark);
     border-radius: var(--border-radius);
   }
+
+  .card-wide {
+    width: 80%;
+  }
   
   .card-header {
     color: var(--primary);

@@ -176,9 +176,12 @@ const displayFiveDay = function (obj) {
 
     let iconId = dayObj.weather[0].icon
     let iconUrl = `http://openweathermap.org/img/wn/${iconId}.png`;
+    let imgDiv = document.createElement("div")
+    imgDiv.classList = "flex-row justify-space-around"
+
     dayIconEl = document.createElement("img")
     dayIconEl.setAttribute("src", iconUrl);
-    dayIconEl.style.margin = "0 33%"
+    imgDiv.appendChild(dayIconEl)
 
     let tempEl = document.createElement("p")
     let temp = dayObj.main.temp;
@@ -191,7 +194,7 @@ const displayFiveDay = function (obj) {
 
 
     dayEl.appendChild(dayTitle)
-    dayEl.appendChild(dayIconEl)
+    dayEl.appendChild(imgDiv)
     dayEl.appendChild(tempEl)
     dayEl.appendChild(humidityEl)
 
