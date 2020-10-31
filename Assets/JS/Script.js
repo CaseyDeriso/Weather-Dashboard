@@ -77,7 +77,7 @@ const displayCurrentWeather = function (obj) {
   currentWeatherEl.innerHTML = "";
   // create element to dislay current weather
   let titleEl = document.createElement("div");
-  titleEl.classList = "flex-row align-end";
+  titleEl.classList = "flex-row text-align-left align-end";
 
   // create h1 and img elements to show searched city and icon for current weather from api
   let h1El = document.createElement("h1");
@@ -161,21 +161,25 @@ const displayUvBackground = function (obj) {
 };
 
 const displayFiveDay = function (obj) {
-  console.log(obj)
   fiveDayWeatherEl.innerHTML = ""
   for (let i = 7; i<40; i= i + 8) {
     dayObj = obj.list[i]
-    dateText = dayObj.dt_txt.split(' ')[0]
+    // split dt_txt to remove time stamp after date
+    dateHalf = dayObj.dt_txt.split(" ")
+    // split the date sring into yyyy mm dd
+    dateSplit = dateHalf[0].split('-')
+    // re-arrange date to mm-dd-yyyy
+    dateText = `${dateSplit[1]}-${dateSplit[2]}-${dateSplit[0]}`
 
     let dayEl = document.createElement("div")
-    dayEl.classList = "card col-2"
+    dayEl.classList = "card col-12 col-md-2 text-align-center"
 
     dayTitle = document.createElement("div")
     dayTitle.classList = "card-header "
     dayTitle.textContent = dateText;
 
     let iconId = dayObj.weather[0].icon
-    let iconUrl = `http://openweathermap.org/img/wn/${iconId}.png`;
+    let iconUrl = `http://openweathermap.org/img/wn/${iconId}@2x.png`;
     let imgDiv = document.createElement("div")
     imgDiv.classList = "flex-row justify-space-around"
 

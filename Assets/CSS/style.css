@@ -101,6 +101,14 @@
   .hero p {
     max-width: 75%;
   }
+
+  .dashboard {
+    border: 3px solid var(--secondary);
+    margin: 10px 0;
+    padding: 10px 0;
+    border-radius: var(--border-radius);
+    box-shadow: 2.2px 2.2px 3.5px 1px var(--light-dark);
+  }
   
   .app-title {
     font-size: 3rem;
@@ -153,13 +161,17 @@
   
   /* CARDS */
   .card {
-    margin: 20px 5px;
+    margin: 10px 5px;
     border: 3px solid var(--dark);
     border-radius: var(--border-radius);
+    box-shadow: 0 0 3.5px 1px var(--light-dark);
+    
   }
 
   .card-wide {
     width: 80%;
+    box-shadow: none;
+
   }
   
   .card-header {
@@ -219,6 +231,7 @@
 
   .text-align-left {
     text-align: left;
+    margin: 10px 0;
   }
 
   .text-align-center {
