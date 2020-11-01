@@ -2,8 +2,9 @@
 const searchHistEl = document.getElementById("search-history");
 const cityFormEl = document.getElementById("city-form");
 const cityInputEl = document.getElementById("city");
+const weatherDashboardEl = document.getElementById("dashboard");
 const currentWeatherEl = document.getElementById("current-weather");
-const fiveDayWeatherEl = document.getElementById("five-day")
+const fiveDayWeatherEl = document.getElementById("five-day");
 const apiKey = "5f561ad30edf570bba6252977997c67c";
 
 // create the past 5 searches array
@@ -75,6 +76,8 @@ const getFiveDay = function (city) {
 const displayCurrentWeather = function (obj) {
   // clear current weather el content
   currentWeatherEl.innerHTML = "";
+  weatherDashboardEl.style.border = "3px solid var(--dark)";
+
   // create element to dislay current weather
   let titleEl = document.createElement("div");
   titleEl.classList = "flex-row text-align-left align-end";
@@ -102,7 +105,7 @@ const displayCurrentWeather = function (obj) {
   // create h1 element to display temp
   let tempDisplay = document.createElement("h2");
   // add text content and temeprature variable
-  tempDisplay.textContent = `Teperature = ${currentTempF} (F)`;
+  tempDisplay.textContent = `Temperature = ${currentTempF} (F)`;
   // append h1 to the temperature element
   temperatureEl.appendChild(tempDisplay);
 
@@ -161,48 +164,54 @@ const displayUvBackground = function (obj) {
 };
 
 const displayFiveDay = function (obj) {
-  fiveDayWeatherEl.innerHTML = ""
-  for (let i = 7; i<40; i= i + 8) {
-    dayObj = obj.list[i]
+  fiveDayWeatherEl.innerHTML = "";
+
+  let fiveDayTitleEl = document.createElement("h2");
+  fiveDayTitleEl.textContent = "5 Day Forecast:";
+  fiveDayTitleEl.classList = "col-12 row-title";
+
+  fiveDayWeatherEl.appendChild(fiveDayTitleEl);
+
+  for (let i = 7; i < 40; i = i + 8) {
+    dayObj = obj.list[i];
     // split dt_txt to remove time stamp after date
-    dateHalf = dayObj.dt_txt.split(" ")
+    dateHalf = dayObj.dt_txt.split(" ");
     // split the date sring into yyyy mm dd
-    dateSplit = dateHalf[0].split('-')
+    dateSplit = dateHalf[0].split("-");
     // re-arrange date to mm-dd-yyyy
-    dateText = `${dateSplit[1]}-${dateSplit[2]}-${dateSplit[0]}`
+    dateText = `${dateSplit[1]}-${dateSplit[2]}-${dateSplit[0]}`;
 
-    let dayEl = document.createElement("div")
-    dayEl.classList = "card col-12 col-md-2 text-align-center"
+    let dayEl = document.createElement("div");
+    dayEl.classList = "card dark-bg col-12 col-md-2 text-align-center";
 
-    dayTitle = document.createElement("div")
-    dayTitle.classList = "card-header "
+    dayTitle = document.createElement("div");
+    dayTitle.classList = "card-header ";
     dayTitle.textContent = dateText;
 
-    let iconId = dayObj.weather[0].icon
+    let iconId = dayObj.weather[0].icon;
     let iconUrl = `http://openweathermap.org/img/wn/${iconId}@2x.png`;
-    let imgDiv = document.createElement("div")
-    imgDiv.classList = "flex-row justify-space-around"
+    let imgDiv = document.createElement("div");
+    imgDiv.classList = "flex-row justify-space-around";
 
-    dayIconEl = document.createElement("img")
+    dayIconEl = document.createElement("img");
     dayIconEl.setAttribute("src", iconUrl);
-    imgDiv.appendChild(dayIconEl)
+    imgDiv.appendChild(dayIconEl);
 
-    let tempEl = document.createElement("p")
+    let tempEl = document.createElement("p");
     let temp = dayObj.main.temp;
-    let tempInF = Math.floor((temp * 9) / 5 - 459.67)
-    tempEl.textContent = `Temp. = ${tempInF}(F)`
+    let tempInF = Math.floor((temp * 9) / 5 - 459.67);
+    tempEl.textContent = `Temp. = ${tempInF}(F)`;
 
     let humidityEl = document.createElement("p");
     let humidity = dayObj.main.humidity;
     humidityEl.textContent = `Humidity = ${humidity}%`;
 
+    dayEl.appendChild(dayTitle);
+    dayEl.appendChild(imgDiv);
+    dayEl.appendChild(tempEl);
+    dayEl.appendChild(humidityEl);
 
-    dayEl.appendChild(dayTitle)
-    dayEl.appendChild(imgDiv)
-    dayEl.appendChild(tempEl)
-    dayEl.appendChild(humidityEl)
-
-    fiveDayWeatherEl.appendChild(dayEl)
+    fiveDayWeatherEl.appendChild(dayEl);
   }
 };
 
