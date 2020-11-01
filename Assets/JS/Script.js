@@ -93,9 +93,16 @@ const displayCurrentWeather = function (obj) {
   titleIconEl.setAttribute("src", iconUrl);
   // set city name to h1 element
   h1El.innerHTML = obj.name;
+
   // append to title element
   titleEl.appendChild(h1El);
   titleEl.appendChild(titleIconEl);
+
+  // get the date
+  let dateEl = document.createElement("h3")
+
+  let date = new Date().toDateString();
+  dateEl.textContent = date
 
   // create row to display current temperature
   let temperatureEl = document.createElement("div");
@@ -133,7 +140,9 @@ const displayCurrentWeather = function (obj) {
   UvEl.setAttribute("id", "uv-index");
 
   // append each weather element to the current weather element
+  currentWeatherEl.appendChild(dateEl)
   currentWeatherEl.appendChild(titleEl);
+
   currentWeatherEl.appendChild(temperatureEl);
   currentWeatherEl.appendChild(humidityEl);
   currentWeatherEl.appendChild(windEl);
