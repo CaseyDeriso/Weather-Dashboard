@@ -12,4 +12,4 @@
 
 ### Screen shot of application: 
 
-## ![Screenshot of deployed application](./Assets/Pictures/screenshot.jpg)
+## ![Screenshot of deployed application](/Assets/Pictures/Screenshot.jpg)
