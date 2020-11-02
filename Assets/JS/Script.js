@@ -77,6 +77,7 @@ const displayCurrentWeather = function (obj) {
   // clear current weather el content
   currentWeatherEl.innerHTML = "";
   weatherDashboardEl.style.border = "3px solid var(--dark)";
+  weatherDashboardEl.classList = "flex-row justify-space-around dashboard"
 
   // create element to dislay current weather
   let titleEl = document.createElement("div");
